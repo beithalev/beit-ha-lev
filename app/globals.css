@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary:   #040d1a;
+    --bg-secondary: #071428;
+    --gold:         #f2c84a;
+    --gold-light:   #f7d97a;
+    --cream:        #fdf8f0;
+    --text-muted:   #94a3b8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-navy-950 text-cream-50;
+    font-family: "Inter", system-ui, sans-serif;
+  }
+
+  ::selection {
+    background: rgba(242, 200, 74, 0.3);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #071428; }
+  ::-webkit-scrollbar-thumb { background: #163a70; border-radius: 3px; }
+}
+
+@layer components {
+  .gold-text {
+    @apply text-gold-400;
+  }
+
+  .glass {
+    @apply bg-navy-800/60 backdrop-blur-md border border-navy-700/50;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg
+           bg-gold-400 text-navy-950 font-semibold text-sm
+           hover:bg-gold-300 active:scale-95 transition-all duration-150;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg
+           border border-gold-400/60 text-gold-400
+           hover:bg-gold-400/10 active:scale-95 transition-all duration-150 text-sm font-semibold;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg bg-navy-800 border border-navy-700
+           text-cream-50 placeholder:text-slate-500
+           focus:outline-none focus:border-gold-400/60 focus:ring-1 focus:ring-gold-400/30
+           transition-all duration-150 text-sm;
+  }
+
+  .card {
+    @apply rounded-xl bg-navy-800/80 border border-navy-700/60
+           p-6 hover:border-gold-400/30 transition-all duration-200;
+  }
+
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest text-gold-500;
+  }
+}
