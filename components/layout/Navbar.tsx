@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Heart, LogIn } from "lucide-react";
+import { BookOpen, Heart, LogIn, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -13,33 +13,40 @@ export default function Navbar() {
   const path = usePathname();
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 h-16 glass border-b border-navy-700/50">
-      <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 md:px-8">
+    <header className="fixed top-0 inset-x-0 z-50 h-16">
+      {/* Backdrop */}
+      <div className="absolute inset-0 glass border-b border-white/[0.05]" />
+
+      <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 md:px-8">
+
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <span className="text-2xl leading-none" aria-hidden>✡</span>
+          <div className="relative w-8 h-8 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-lg bg-gold-400/10 group-hover:bg-gold-400/20 transition-colors" />
+            <span className="text-gold-400 text-lg relative z-10">✡</span>
+          </div>
           <div className="leading-tight">
-            <div className="text-cream-50 font-serif font-semibold text-lg group-hover:text-gold-400 transition-colors">
+            <div className="text-cream-50 font-serif font-bold text-base group-hover:text-gold-300 transition-colors">
               Beit Ha Lev
             </div>
-            <div className="text-gold-400 text-xs font-hebrew tracking-wide">בֵּית הַלֵּב</div>
+            <div className="text-gold-500/70 text-[10px] font-hebrew tracking-wider">בֵּית הַלֵּב</div>
           </div>
         </Link>
 
         {/* Nav links */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-0.5">
           {links.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                 path.startsWith(href)
-                  ? "bg-gold-400/15 text-gold-400"
-                  : "text-slate-300 hover:text-cream-50 hover:bg-navy-700/60"
+                  ? "text-gold-400 bg-gold-400/10"
+                  : "text-slate-400 hover:text-cream-100 hover:bg-white/5"
               )}
             >
-              <Icon size={16} />
+              <Icon size={15} />
               {label}
             </Link>
           ))}
@@ -47,11 +54,19 @@ export default function Navbar() {
 
         {/* Auth */}
         <div className="flex items-center gap-2">
-          <Link href="/auth/login" className="btn-outline py-2 px-4 text-xs">
-            <LogIn size={14} /> Sign in
+          <Link
+            href="/auth/login"
+            className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm text-slate-400 hover:text-cream-50 hover:bg-white/5 transition-all font-medium"
+          >
+            <LogIn size={14} />
+            Sign in
           </Link>
-          <Link href="/auth/register" className="btn-gold py-2 px-4 text-xs hidden sm:inline-flex">
-            Join
+          <Link
+            href="/auth/register"
+            className="btn-gold py-2 px-4 text-xs"
+          >
+            <Sparkles size={13} />
+            Join Free
           </Link>
         </div>
       </div>

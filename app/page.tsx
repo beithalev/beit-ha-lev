@@ -1,159 +1,338 @@
 import Link from "next/link";
-import { BookOpen, Heart, Users, Video, MessageSquare, Shield } from "lucide-react";
+import { BookOpen, Heart, Users, Video, MessageSquare, Shield, ArrowRight, Star } from "lucide-react";
 
 const features = [
   {
     icon: Video,
     title: "Live Torah Classrooms",
     desc: "Join open virtual rooms led by rabbis. Watch, listen, raise your hand, and join on camera for debate and discussion.",
+    color: "gold",
   },
   {
     icon: MessageSquare,
     title: "Hevruta Chat",
-    desc: "Real-time chat in every classroom. Ask questions, share sources, and connect with fellow learners.",
+    desc: "Real-time chat in every classroom. Ask questions, share sources, and connect with fellow learners as the shiur unfolds.",
+    color: "gold",
   },
   {
     icon: Users,
     title: "Rabbi Marketplace",
-    desc: "Find rabbis by topic and denomination. Support them through flexible payment or fundraising.",
+    desc: "Find rabbis by topic and denomination. Support them through flexible payment or community fundraising.",
+    color: "gold",
   },
   {
     icon: Heart,
-    title: "Shidduch Matching",
-    desc: "No photos. No superficiality. A thoughtful questionnaire matched by values, observance, and life goals.",
+    title: "Values-First Matching",
+    desc: "No photos. No superficiality. A thoughtful questionnaire matched by observance, life goals, and what matters most.",
+    color: "rose",
   },
   {
     icon: Shield,
-    title: "Privacy First",
-    desc: "Shidduch profiles have no images. Your identity is protected until you choose to share.",
+    title: "Complete Privacy",
+    desc: "Shidduch profiles have no images. Your identity stays protected until both parties choose to connect.",
+    color: "rose",
   },
   {
     icon: BookOpen,
-    title: "Any Denomination",
-    desc: "From chassidish to reform — Beit Ha Lev is a home for every Jew who wants to learn and connect.",
+    title: "Every Denomination",
+    desc: "From chassidish to reform — Beit Ha Lev is a home for every Jew who wants to learn and find love.",
+    color: "rose",
+  },
+];
+
+const testimonials = [
+  {
+    text: "Finally a platform that takes Torah study seriously. The live classroom format feels like being in a real shiur.",
+    name: "Miriam K.",
+    role: "Student, New York",
+  },
+  {
+    text: "Met my husband through Beit Ha Lev. The questionnaire really does match by what matters — not just looks.",
+    name: "Rivka S.",
+    role: "Married, Jerusalem",
+  },
+  {
+    text: "I've been teaching for 20 years. This is the first platform that actually respects the rabbi-student relationship.",
+    name: "Rabbi Yosef L.",
+    role: "Torah Educator",
   },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Background radial gradient + star pattern */}
+    <div className="relative min-h-screen overflow-x-hidden">
+
+      {/* ── Background ─────────────────────────────────────────────── */}
+      <div className="fixed inset-0 -z-10 bg-navy-950" />
+
+      {/* Ambient orbs */}
       <div
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(22,58,112,0.7) 0%, transparent 70%), #040d1a",
-        }}
+        className="glow-orb fixed -z-10 w-[700px] h-[400px] opacity-30"
+        style={{ background: "radial-gradient(ellipse, rgba(20,50,110,0.9) 0%, transparent 70%)", top: "-100px", left: "50%", transform: "translateX(-50%)" }}
       />
       <div
-        className="pointer-events-none fixed inset-0 -z-10 opacity-30"
+        className="glow-orb fixed -z-10 w-[400px] h-[400px] opacity-15"
+        style={{ background: "radial-gradient(ellipse, rgba(245,158,42,0.5) 0%, transparent 70%)", top: "40%", right: "-150px" }}
+      />
+      <div
+        className="glow-orb fixed -z-10 w-[300px] h-[300px] opacity-10"
+        style={{ background: "radial-gradient(ellipse, rgba(245,158,42,0.4) 0%, transparent 70%)", top: "20%", left: "-100px" }}
+      />
+
+      {/* Star field */}
+      <div
+        className="fixed inset-0 -z-10 opacity-40"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(242,200,74,0.18) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
+          backgroundImage: "radial-gradient(circle, rgba(242,200,74,0.15) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
         }}
       />
 
-      {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center text-center px-4 pt-24 pb-20 max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-400/30 bg-gold-400/5 text-gold-400 text-xs font-medium mb-8 uppercase tracking-widest">
-          <span>✡</span> Beta — Torah Study &amp; Shidduch
+      {/* ── Hero ───────────────────────────────────────────────────── */}
+      <section className="relative flex flex-col items-center text-center px-5 pt-28 pb-24 max-w-5xl mx-auto">
+
+        {/* Badge */}
+        <div className="badge mb-8 animate-fade-in">
+          <Star size={11} className="text-gold-400" />
+          <span>Open Beta — Torah Study & Shidduch</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-serif font-bold leading-tight text-cream-50 mb-4">
+        {/* Main heading */}
+        <h1 className="font-serif text-6xl md:text-8xl font-bold text-cream-50 leading-[1.05] mb-4 animate-slide-up">
           Beit{" "}
-          <span className="text-gold-400 relative">
-            Ha Lev
-            <span
-              className="absolute -bottom-2 left-0 right-0 h-[2px] rounded-full"
-              style={{ background: "linear-gradient(90deg, transparent, #f2c84a, transparent)" }}
-            />
+          <span className="relative">
+            <span className="gradient-gold">Ha Lev</span>
+            <svg
+              className="absolute -bottom-2 left-0 w-full"
+              height="6" viewBox="0 0 200 6"
+              fill="none" xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <path d="M0 4 Q50 1 100 3 Q150 5 200 2" stroke="url(#g)" strokeWidth="2" strokeLinecap="round"/>
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#f2c84a" stopOpacity="0"/>
+                  <stop offset="0.5" stopColor="#f2c84a"/>
+                  <stop offset="1" stopColor="#f2c84a" stopOpacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
           </span>
         </h1>
 
-        <p className="text-3xl md:text-4xl font-hebrew text-gold-300/80 mb-6 tracking-wide">
+        {/* Hebrew subtitle */}
+        <p className="text-2xl md:text-3xl text-gold-400/60 font-hebrew tracking-widest mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           בֵּית הַלֵּב
         </p>
 
-        <p className="text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
-          A home for the heart. Study Torah live with rabbis from around the world,
-          and find your bashert through values-first, image-free matching.
+        {/* Tagline */}
+        <p className="text-slate-300/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-3 animate-fade-in" style={{ animationDelay: "0.15s" }}>
+          A home for the heart.
+        </p>
+        <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          Study Torah live with rabbis from around the world, and find your bashert
+          through values-first, image-free matching.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/torah" className="btn-gold text-base px-8 py-4">
-            <BookOpen size={18} /> Explore Torah Study
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in" style={{ animationDelay: "0.25s" }}>
+          <Link href="/torah" className="btn-gold text-sm px-8 py-4">
+            <BookOpen size={16} />
+            Explore Torah Study
           </Link>
-          <Link href="/shidduch" className="btn-outline text-base px-8 py-4">
-            <Heart size={18} /> Find Your Bashert
+          <Link href="/shidduch" className="btn-outline text-sm px-8 py-4">
+            <Heart size={16} />
+            Find Your Bashert
           </Link>
         </div>
+
+        {/* Soft bottom fade into next section */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 -z-10 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, rgba(6,8,15,0.5))" }}
+        />
       </section>
 
-      {/* ── Divider ────────────────────────────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-4">
-        <div
-          className="h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(242,200,74,0.3), transparent)" }}
-        />
+      {/* ── Divider ────────────────────────────────────────────────── */}
+      <div className="max-w-2xl mx-auto px-5">
+        <div className="gold-divider" />
       </div>
 
-      {/* ── Features ───────────────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <p className="section-label mb-3">What We Offer</p>
-          <h2 className="text-3xl md:text-4xl font-serif text-cream-50">
-            Torah & Connection, <span className="gold-text">Together</span>
+      {/* ── Features ───────────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-5 py-24">
+        <div className="text-center mb-16">
+          <p className="section-label mb-4">What We Offer</p>
+          <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">
+            Torah &amp; Connection,{" "}
+            <span className="gradient-gold">Together</span>
           </h2>
+          <p className="text-slate-400 max-w-lg mx-auto text-base">
+            Two sacred pursuits — learning and love — on one platform built for the Jewish soul.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="card group">
-              <div className="w-10 h-10 rounded-lg bg-gold-400/10 border border-gold-400/20 flex items-center justify-center mb-4 group-hover:bg-gold-400/20 transition-colors">
-                <Icon size={20} className="text-gold-400" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {features.map(({ icon: Icon, title, desc, color }, i) => (
+            <div
+              key={title}
+              className="card-feature group"
+              style={{ animationDelay: `${i * 0.07}s` }}
+            >
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                style={{
+                  background: color === "rose"
+                    ? "rgba(244,63,94,0.1)"
+                    : "rgba(242,200,74,0.1)",
+                  border: `1px solid ${color === "rose" ? "rgba(244,63,94,0.2)" : "rgba(242,200,74,0.2)"}`,
+                }}
+              >
+                <Icon
+                  size={20}
+                  className={color === "rose" ? "text-rose-400" : "text-gold-400"}
+                />
               </div>
-              <h3 className="text-cream-50 font-semibold mb-2">{title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+              <div>
+                <h3 className="font-serif text-lg text-cream-50 font-semibold mb-1.5">{title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Two-path CTA ───────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 pb-24 grid md:grid-cols-2 gap-6">
+      {/* ── Two-path CTA ───────────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-5 pb-24 grid md:grid-cols-2 gap-5">
+
         {/* Torah card */}
-        <div className="relative overflow-hidden rounded-2xl border border-navy-700/60 p-8"
-          style={{ background: "linear-gradient(135deg, #0d2040 0%, #071428 100%)" }}>
-          <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, #f2c84a 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
-          <BookOpen size={28} className="text-gold-400 mb-4" />
-          <h3 className="text-2xl font-serif text-cream-50 mb-2">Torah Study</h3>
-          <p className="text-slate-400 text-sm leading-relaxed mb-6">
-            Join a live classroom now, or browse upcoming sessions. Any topic, any level.
-          </p>
-          <Link href="/torah" className="btn-gold text-sm">Browse Classrooms</Link>
+        <div className="relative overflow-hidden rounded-3xl p-10 flex flex-col gap-6 group"
+          style={{
+            background: "linear-gradient(135deg, rgba(17,30,53,0.9) 0%, rgba(9,13,24,0.95) 100%)",
+            border: "1px solid rgba(242,200,74,0.12)",
+            boxShadow: "0 8px 48px rgba(0,0,0,0.5)",
+          }}>
+          <div
+            className="absolute top-0 right-0 w-64 h-64 pointer-events-none opacity-20 group-hover:opacity-30 transition-opacity"
+            style={{ background: "radial-gradient(circle, rgba(242,200,74,0.5) 0%, transparent 65%)", transform: "translate(40%, -40%)" }}
+          />
+          <div className="relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-gold-400/10 border border-gold-400/20 flex items-center justify-center mb-5">
+              <BookOpen size={22} className="text-gold-400" />
+            </div>
+            <h3 className="font-serif text-3xl text-cream-50 mb-3">Torah Study</h3>
+            <p className="text-slate-400 text-sm leading-relaxed mb-7">
+              Join a live classroom now, or browse upcoming sessions.<br/>
+              Any topic, any level, any denomination.
+            </p>
+            <Link href="/torah" className="btn-gold text-sm w-fit">
+              Browse Classrooms
+              <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
 
         {/* Shidduch card */}
-        <div className="relative overflow-hidden rounded-2xl border border-navy-700/60 p-8"
-          style={{ background: "linear-gradient(135deg, #1a0d28 0%, #071428 100%)" }}>
-          <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, #c084fc 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
-          <Heart size={28} className="text-purple-400 mb-4" />
-          <h3 className="text-2xl font-serif text-cream-50 mb-2">Shidduch</h3>
-          <p className="text-slate-400 text-sm leading-relaxed mb-6">
-            Create a values-first profile and let our algorithm find your most compatible matches.
-          </p>
-          <Link href="/auth/register?tab=shidduch" className="btn-outline border-purple-400/50 text-purple-300 hover:bg-purple-400/10 text-sm">
-            Create a Profile
-          </Link>
+        <div className="relative overflow-hidden rounded-3xl p-10 flex flex-col gap-6 group"
+          style={{
+            background: "linear-gradient(135deg, rgba(20,12,30,0.9) 0%, rgba(9,13,24,0.95) 100%)",
+            border: "1px solid rgba(192,132,252,0.12)",
+            boxShadow: "0 8px 48px rgba(0,0,0,0.5)",
+          }}>
+          <div
+            className="absolute top-0 right-0 w-64 h-64 pointer-events-none opacity-20 group-hover:opacity-30 transition-opacity"
+            style={{ background: "radial-gradient(circle, rgba(192,132,252,0.5) 0%, transparent 65%)", transform: "translate(40%, -40%)" }}
+          />
+          <div className="relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-purple-400/10 border border-purple-400/20 flex items-center justify-center mb-5">
+              <Heart size={22} className="text-purple-400" />
+            </div>
+            <h3 className="font-serif text-3xl text-cream-50 mb-3">Shidduch</h3>
+            <p className="text-slate-400 text-sm leading-relaxed mb-7">
+              Create a values-first profile and let our algorithm
+              find your most compatible matches. No photos required.
+            </p>
+            <Link
+              href="/auth/register"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all duration-200 border border-purple-400/30 text-purple-300 hover:bg-purple-400/10 hover:border-purple-400/60"
+            >
+              Create a Profile
+              <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────────────────────── */}
-      <footer className="border-t border-navy-700/50 py-8 text-center text-slate-500 text-sm">
-        <p>Beit Ha Lev &mdash; בֵּית הַלֵּב &mdash; A Home for the Heart</p>
-        <p className="mt-1 text-xs">Built with love, for the Jewish people.</p>
+      {/* ── Testimonials ───────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-5 pb-24">
+        <div className="text-center mb-12">
+          <p className="section-label mb-4">Stories</p>
+          <h2 className="font-serif text-3xl md:text-4xl text-cream-50">
+            From Our Community
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {testimonials.map(({ text, name, role }) => (
+            <div key={name} className="card flex flex-col gap-4">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={12} className="text-gold-400 fill-gold-400" />
+                ))}
+              </div>
+              <p className="text-slate-300 text-sm leading-relaxed italic flex-1">"{text}"</p>
+              <div>
+                <div className="text-cream-100 font-semibold text-sm">{name}</div>
+                <div className="text-slate-500 text-xs mt-0.5">{role}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Footer CTA ─────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden mx-5 mb-16 rounded-3xl px-10 py-16 text-center max-w-4xl md:mx-auto"
+        style={{
+          background: "linear-gradient(135deg, rgba(17,30,53,0.95) 0%, rgba(13,21,37,0.98) 100%)",
+          border: "1px solid rgba(242,200,74,0.12)",
+          boxShadow: "0 0 80px rgba(0,0,0,0.5)",
+        }}>
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(242,200,74,0.12) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-40 opacity-20 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse, rgba(242,200,74,0.5) 0%, transparent 70%)", filter: "blur(40px)" }}
+        />
+        <div className="relative z-10">
+          <p className="section-label mb-4">Ready to Begin?</p>
+          <h2 className="font-serif text-3xl md:text-5xl text-cream-50 mb-4">
+            Your Journey Starts Here
+          </h2>
+          <p className="text-slate-400 max-w-md mx-auto text-base mb-10">
+            Whether you seek wisdom or your bashert — Beit Ha Lev is your home.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/auth/register" className="btn-gold text-sm px-8 py-4">
+              Join the Community
+              <ArrowRight size={15} />
+            </Link>
+            <Link href="/torah" className="btn-outline text-sm px-8 py-4">
+              Browse Torah Rooms
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ─────────────────────────────────────────────────── */}
+      <footer className="border-t border-white/[0.05] py-10 text-center">
+        <div className="text-gold-400/50 text-lg mb-2">✡</div>
+        <p className="text-slate-500 text-sm">
+          Beit Ha Lev &mdash; בֵּית הַלֵּב &mdash; A Home for the Heart
+        </p>
+        <p className="mt-1 text-slate-600 text-xs">Built with love, for the Jewish people.</p>
       </footer>
     </div>
   );
