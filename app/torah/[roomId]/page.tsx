@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import JitsiRoom from "@/components/torah/JitsiRoom";
+import DailyRoom from "@/components/torah/DailyRoom";
 import RoomSidebar from "@/components/torah/RoomSidebar";
 
 interface Props { params: { roomId: string } }
@@ -45,7 +45,7 @@ export default async function RoomPage({ params }: Props) {
 
         {/* Jitsi iframe */}
         <div className="flex-1">
-          <JitsiRoom
+          <DailyRoom
             roomName={classroom.jitsi_room_name}
             displayName={displayName}
             subject={classroom.title}
