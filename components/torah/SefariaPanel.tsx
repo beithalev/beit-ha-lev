@@ -13,7 +13,6 @@ interface SefariaResult {
 
 interface SearchHit {
   ref: string;
-  heRef: string;
   snippet: string;
 }
 
@@ -65,37 +64,39 @@ export default function SefariaPanel() {
 
   async function runTextSearch(value: string) {
     try {
-      const res = await fetch("https://www.sefaria.org/api/search-wrapper/_search", {
+      const res = await fetch("https://www.sefaria.org/api/search-wrapper", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query: value,
           type: "text",
           field: "naive_lemmatizer",
-          source_proj: false,
           size: 15,
-          filters: [],
-          filter_fields: [],
-          aggs: [],
-          exact: false,
+          sort_fields: ["pagesheetrank"],
+          sort_method: "score",
         }),
       });
       if (!res.ok) return [];
       const data = await res.json();
       const hits = data?.hits?.hits ?? [];
-      return hits
-        .map((hit: any) => {
-          const source = hit._source ?? {};
-          const highlight = hit.highlight ?? {};
-          const snippetArr = highlight.naive_lemmatizer || highlight.exact || [];
-          const snippet = Array.isArray(snippetArr) ? snippetArr[0] : "";
-          return {
-            ref: source.ref ?? "",
-            heRef: source.heRef ?? "",
-            snippet: String(snippet || "").replace(/<[^>]+>/g, ""),
-          };
-        })
-        .filter((r: SearchHit) => r.ref);
+      const seen = new Set<string>();
+      const results: SearchHit[] = [];
+      for (const hit of hits) {
+        const id = String(hit._id ?? "");
+        const ref = id.replace(/\s*\([^)]*\)\s*$/, "").trim();
+        if (!ref || seen.has(ref)) continue;
+        seen.add(ref);
+
+        const highlight = hit.highlight ?? {};
+        const snippetArr = highlight.naive_lemmatizer || highlight.exact || [];
+        const snippet = Array.isArray(snippetArr) ? snippetArr[0] : "";
+
+        results.push({
+          ref,
+          snippet: String(snippet || "").replace(/<[^>]+>/g, ""),
+        });
+      }
+      return results;
     } catch {
       return [];
     }
