@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import JitsiRoom from "@/components/torah/JitsiRoom";
-import ChatSidebar from "@/components/torah/ChatSidebar";
+import RoomSidebar from "@/components/torah/RoomSidebar";
 
 interface Props { params: { roomId: string } }
 
@@ -53,9 +53,9 @@ export default async function RoomPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Chat sidebar */}
+      {/* Chat / Sources sidebar */}
       <div className="w-full md:w-80 lg:w-96 border-t md:border-t-0 md:border-l border-navy-700/50 flex flex-col bg-navy-900">
-        <ChatSidebar
+        <RoomSidebar
           classroomId={params.roomId}
           userId={user?.id ?? null}
           displayName={displayName}
