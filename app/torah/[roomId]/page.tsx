@@ -10,7 +10,7 @@ export default async function RoomPage({ params }: Props) {
 
   const { data: classroom } = await supabase
     .from("classrooms")
-    .select("*, profiles(display_name), rabbi_profiles(title)")
+    .select("*, profiles(display_name)")
     .eq("id", params.roomId)
     .single();
 
