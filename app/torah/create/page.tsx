@@ -88,7 +88,7 @@ export default function CreateRoomPage() {
           >
             <span className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${isLive ? "translate-x-6" : "translate-x-1"}`} />
           </button>
-          <span className="text-sm text-slate-300">Start as Live now</span>
+          <span className="text-sm text-slate-300">Go live immediately</span>
         </div>
 
         <button type="submit" className="btn-gold w-full" disabled={loading}>
