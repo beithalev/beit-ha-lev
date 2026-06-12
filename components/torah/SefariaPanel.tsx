@@ -9,8 +9,14 @@ interface SefariaResult {
   text: string | string[];
 }
 
+const PREFIX_STRIP = /^(talmud|gemara|mishnah|mishna|masechet|masechta|tractate)\s+/i;
+
+function cleanQuery(input: string) {
+  return input.trim().replace(PREFIX_STRIP, "");
+}
+
 function toSefariaRef(input: string) {
-  return input.trim().replace(/:/g, ".").replace(/\s+/g, ".");
+  return cleanQuery(input).replace(/:/g, ".").replace(/\s+/g, ".");
 }
 
 function flatten(value: string | string[]): string[] {
@@ -33,7 +39,7 @@ export default function SefariaPanel() {
 
     const handle = setTimeout(async () => {
       try {
-        const res = await fetch(`https://www.sefaria.org/api/name/${encodeURIComponent(query.trim())}`);
+        const res = await fetch(`https://www.sefaria.org/api/name/${encodeURIComponent(cleanQuery(query))}`);
         if (!res.ok) return;
         const data = await res.json();
         const completions: string[] = Array.isArray(data.completions) ? data.completions : [];
