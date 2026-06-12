@@ -11,6 +11,12 @@ interface SefariaResult {
   text: SefariaText;
 }
 
+interface SearchHit {
+  ref: string;
+  heRef: string;
+  snippet: string;
+}
+
 const PREFIX_STRIP = /^(talmud|gemara|mishnah|mishna|masechet|masechta|tractate)\s+/i;
 
 function cleanQuery(input: string) {
@@ -33,6 +39,7 @@ export default function SefariaPanel() {
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchHit[]>([]);
   const skipNextFetch = useRef(false);
 
   // Autocomplete suggestions as the user types
@@ -56,25 +63,72 @@ export default function SefariaPanel() {
     return () => clearTimeout(handle);
   }, [query]);
 
+  async function runTextSearch(value: string) {
+    try {
+      const res = await fetch("https://www.sefaria.org/api/search-wrapper/_search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: value,
+          type: "text",
+          field: "naive_lemmatizer",
+          source_proj: false,
+          size: 15,
+          filters: [],
+          filter_fields: [],
+          aggs: [],
+          exact: false,
+        }),
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      const hits = data?.hits?.hits ?? [];
+      return hits
+        .map((hit: any) => {
+          const source = hit._source ?? {};
+          const highlight = hit.highlight ?? {};
+          const snippetArr = highlight.naive_lemmatizer || highlight.exact || [];
+          const snippet = Array.isArray(snippetArr) ? snippetArr[0] : "";
+          return {
+            ref: source.ref ?? "",
+            heRef: source.heRef ?? "",
+            snippet: String(snippet || "").replace(/<[^>]+>/g, ""),
+          };
+        })
+        .filter((r: SearchHit) => r.ref);
+    } catch {
+      return [];
+    }
+  }
+
   async function runLookup(value: string) {
     if (!value.trim()) return;
     setLoading(true);
     setError("");
     setResult(null);
+    setSearchResults([]);
     setShowSuggestions(false);
 
+    const ref = toSefariaRef(value);
+    let foundResult: SefariaResult | null = null;
     try {
-      const ref = toSefariaRef(value);
       const res = await fetch(`https://www.sefaria.org/api/texts/${encodeURIComponent(ref)}?context=0`);
-      if (!res.ok) throw new Error("Not found");
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      setResult(data);
+      if (res.ok) {
+        const data = await res.json();
+        if (!data.error) foundResult = data;
+      }
     } catch {
-      setError("Couldn't find that source. Try e.g. \"Genesis 1:1\" or \"Berakhot 2a\".");
-    } finally {
-      setLoading(false);
+      foundResult = null;
     }
+
+    const hits = await runTextSearch(cleanQuery(value));
+
+    setResult(foundResult);
+    setSearchResults(hits);
+    if (!foundResult && hits.length === 0) {
+      setError("Couldn't find any sources for that. Try a different word or phrase, or a reference like \"Genesis 1:1\".");
+    }
+    setLoading(false);
   }
 
   function selectSuggestion(s: string) {
@@ -120,10 +174,10 @@ export default function SefariaPanel() {
       </form>
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-        {!result && !error && !loading && (
+        {!result && !error && !loading && searchResults.length === 0 && (
           <div className="text-center text-slate-500 py-12">
             <BookOpen size={28} className="mx-auto mb-3 opacity-40" />
-            <p className="text-sm">Search for a source from Sefaria to share with the room.</p>
+            <p className="text-sm">Search any word, topic, or reference from Sefaria to share with the room.</p>
           </div>
         )}
 
@@ -158,6 +212,29 @@ export default function SefariaPanel() {
                 This source is long — showing the first part only. Try a more specific reference (e.g. a chapter or page).
               </p>
             )}
+          </div>
+        )}
+
+        {searchResults.length > 0 && (
+          <div className="space-y-2">
+            {result && (
+              <p className="text-slate-500 text-xs font-semibold uppercase tracking-wide pt-2 border-t border-navy-700/50">
+                More results
+              </p>
+            )}
+            {searchResults.map((hit, i) => (
+              <button
+                key={`${hit.ref}-${i}`}
+                type="button"
+                onClick={() => { setQuery(hit.ref); runLookup(hit.ref); }}
+                className="block w-full text-left px-3 py-2 rounded-lg bg-navy-800/60 border border-navy-700/50 hover:border-gold-400/50 transition-colors"
+              >
+                <p className="text-gold-400 text-xs font-semibold">{hit.ref}</p>
+                {hit.snippet && (
+                  <p className="text-slate-400 text-xs mt-1 leading-relaxed line-clamp-2">{hit.snippet}</p>
+                )}
+              </button>
+            ))}
           </div>
         )}
       </div>
