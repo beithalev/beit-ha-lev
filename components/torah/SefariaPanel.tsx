@@ -64,7 +64,7 @@ export default function SefariaPanel() {
 
   async function runTextSearch(value: string) {
     try {
-      const res = await fetch("https://www.sefaria.org/api/search-wrapper", {
+      const res = await fetch("/api/sefaria-search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
