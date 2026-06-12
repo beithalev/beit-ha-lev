@@ -2,11 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Search, BookOpen } from "lucide-react";
 
+type SefariaText = string | SefariaText[];
+
 interface SefariaResult {
   ref: string;
   heRef: string;
-  he: string | string[];
-  text: string | string[];
+  he: SefariaText;
+  text: SefariaText;
 }
 
 const PREFIX_STRIP = /^(talmud|gemara|mishnah|mishna|masechet|masechta|tractate)\s+/i;
@@ -19,8 +21,9 @@ function toSefariaRef(input: string) {
   return cleanQuery(input).replace(/:/g, ".").replace(/\s+/g, ".");
 }
 
-function flatten(value: string | string[]): string[] {
-  return Array.isArray(value) ? value.filter(Boolean) : [value].filter(Boolean);
+function flatten(value: SefariaText): string[] {
+  if (Array.isArray(value)) return value.flatMap(flatten);
+  return value ? [value] : [];
 }
 
 export default function SefariaPanel() {
@@ -140,16 +143,21 @@ export default function SefariaPanel() {
               <p className="text-gold-400 text-sm font-semibold">{result.ref}</p>
               <p className="text-slate-500 text-xs font-hebrew">{result.heRef}</p>
             </div>
-            {flatten(result.he).map((line, i) => (
+            {flatten(result.he).slice(0, 40).map((line, i) => (
               <p key={`he-${i}`} dir="rtl" className="font-hebrew text-cream-100 text-base leading-relaxed">
                 {line.replace(/<[^>]+>/g, "")}
               </p>
             ))}
-            {flatten(result.text).map((line, i) => (
+            {flatten(result.text).slice(0, 40).map((line, i) => (
               <p key={`en-${i}`} className="text-slate-300 text-sm leading-relaxed">
                 {line.replace(/<[^>]+>/g, "")}
               </p>
             ))}
+            {(flatten(result.he).length > 40 || flatten(result.text).length > 40) && (
+              <p className="text-slate-500 text-xs italic">
+                This source is long — showing the first part only. Try a more specific reference (e.g. a chapter or page).
+              </p>
+            )}
           </div>
         )}
       </div>
