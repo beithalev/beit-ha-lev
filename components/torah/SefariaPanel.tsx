@@ -22,10 +22,6 @@ function cleanQuery(input: string) {
   return input.trim().replace(PREFIX_STRIP, "");
 }
 
-function toSefariaRef(input: string) {
-  return cleanQuery(input).replace(/:/g, ".").replace(/\s+/g, ".");
-}
-
 function flatten(value: SefariaText): string[] {
   if (Array.isArray(value)) return value.flatMap(flatten);
   return value ? [value] : [];
@@ -48,7 +44,7 @@ export default function SefariaPanel() {
 
     const handle = setTimeout(async () => {
       try {
-        const res = await fetch(`https://www.sefaria.org/api/name/${encodeURIComponent(cleanQuery(query))}`);
+        const res = await fetch(`/api/sefaria-suggest?q=${encodeURIComponent(cleanQuery(query))}`);
         if (!res.ok) return;
         const data = await res.json();
         const completions: string[] = Array.isArray(data.completions) ? data.completions : [];
@@ -62,46 +58,6 @@ export default function SefariaPanel() {
     return () => clearTimeout(handle);
   }, [query]);
 
-  async function runTextSearch(value: string) {
-    try {
-      const res = await fetch("/api/sefaria-search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: value,
-          type: "text",
-          field: "naive_lemmatizer",
-          size: 15,
-          sort_fields: ["pagesheetrank"],
-          sort_method: "score",
-        }),
-      });
-      if (!res.ok) return [];
-      const data = await res.json();
-      const hits = data?.hits?.hits ?? [];
-      const seen = new Set<string>();
-      const results: SearchHit[] = [];
-      for (const hit of hits) {
-        const id = String(hit._id ?? "");
-        const ref = id.replace(/\s*\([^)]*\)\s*$/, "").trim();
-        if (!ref || seen.has(ref)) continue;
-        seen.add(ref);
-
-        const highlight = hit.highlight ?? {};
-        const snippetArr = highlight.naive_lemmatizer || highlight.exact || [];
-        const snippet = Array.isArray(snippetArr) ? snippetArr[0] : "";
-
-        results.push({
-          ref,
-          snippet: String(snippet || "").replace(/<[^>]+>/g, ""),
-        });
-      }
-      return results;
-    } catch {
-      return [];
-    }
-  }
-
   async function runLookup(value: string) {
     if (!value.trim()) return;
     setLoading(true);
@@ -110,19 +66,22 @@ export default function SefariaPanel() {
     setSearchResults([]);
     setShowSuggestions(false);
 
-    const ref = toSefariaRef(value);
     let foundResult: SefariaResult | null = null;
+    let hits: SearchHit[] = [];
     try {
-      const res = await fetch(`https://www.sefaria.org/api/texts/${encodeURIComponent(ref)}?context=0`);
+      const res = await fetch("/api/sefaria-lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: value }),
+      });
       if (res.ok) {
         const data = await res.json();
-        if (!data.error) foundResult = data;
+        foundResult = data.result ?? null;
+        hits = Array.isArray(data.searchResults) ? data.searchResults : [];
       }
     } catch {
       foundResult = null;
     }
-
-    const hits = await runTextSearch(cleanQuery(value));
 
     setResult(foundResult);
     setSearchResults(hits);
