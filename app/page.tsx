@@ -40,24 +40,6 @@ const features = [
   },
 ];
 
-const testimonials = [
-  {
-    text: "Finally a platform that takes Torah study seriously. The live classroom format feels like being in a real shiur.",
-    name: "Miriam K.",
-    role: "Student, New York",
-  },
-  {
-    text: "Met my husband through Beit Ha Lev. The questionnaire really does match by what matters — not just looks.",
-    name: "Rivka S.",
-    role: "Married, Jerusalem",
-  },
-  {
-    text: "I've been teaching for 20 years. This is the first platform that actually respects the rabbi-student relationship.",
-    name: "Rabbi Yosef L.",
-    role: "Torah Educator",
-  },
-];
-
 export default function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
@@ -259,32 +241,6 @@ export default function LandingPage() {
               <ArrowRight size={14} />
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* ── Testimonials ───────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-5 pb-24">
-        <div className="text-center mb-12">
-          <p className="section-label mb-4">Stories</p>
-          <h2 className="font-serif text-3xl md:text-4xl text-cream-50">
-            From Our Community
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {testimonials.map(({ text, name, role }) => (
-            <div key={name} className="card flex flex-col gap-4">
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className="text-gold-400 fill-gold-400" />
-                ))}
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed italic flex-1">"{text}"</p>
-              <div>
-                <div className="text-cream-100 font-semibold text-sm">{name}</div>
-                <div className="text-slate-500 text-xs mt-0.5">{role}</div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
