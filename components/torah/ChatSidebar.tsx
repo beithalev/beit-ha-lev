@@ -22,12 +22,18 @@ export default function ChatSidebar({ classroomId, userId, displayName }: Props)
   useEffect(() => {
     supabase
       .from("classroom_messages")
-      .select("*, profiles(display_name)")
+      .select("*")
       .eq("classroom_id", classroomId)
       .order("created_at", { ascending: true })
       .limit(200)
-      .then(({ data }) => {
-        if (data) setMessages(data as ChatMessage[]);
+      .then(async ({ data }) => {
+        if (!data) return;
+        const senderIds = [...new Set(data.map((m) => m.user_id))];
+        const { data: senders } = senderIds.length
+          ? await supabase.from("profile_public").select("id, display_name").in("id", senderIds)
+          : { data: [] };
+        const senderMap = new Map((senders ?? []).map((s) => [s.id, { display_name: s.display_name }]));
+        setMessages(data.map((m) => ({ ...m, user: senderMap.get(m.user_id) })) as ChatMessage[]);
       });
   }, [classroomId, supabase]);
 
