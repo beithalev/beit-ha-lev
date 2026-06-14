@@ -26,7 +26,7 @@ export default async function RoomPage({ params }: Props) {
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row overflow-hidden">
       {/* Video area */}
-      <div className="flex-1 bg-navy-950 flex flex-col">
+      <div className="h-[42vh] shrink-0 md:h-auto md:flex-1 min-h-0 bg-navy-950 flex flex-col">
         {/* Room header */}
         <div className="px-4 sm:px-5 py-3 border-b border-navy-700/50 flex items-center justify-between gap-3">
           <div className="min-w-0">
@@ -44,7 +44,7 @@ export default async function RoomPage({ params }: Props) {
         </div>
 
         {/* Jitsi iframe */}
-        <div className="flex-1">
+        <div className="flex-1 min-h-0">
           <DailyRoom
             roomName={classroom.jitsi_room_name}
             displayName={displayName}
@@ -54,7 +54,7 @@ export default async function RoomPage({ params }: Props) {
       </div>
 
       {/* Chat / Sources sidebar */}
-      <div className="w-full md:w-80 lg:w-96 border-t md:border-t-0 md:border-l border-navy-700/50 flex flex-col bg-navy-900">
+      <div className="flex-1 min-h-0 md:flex-none w-full md:w-80 lg:w-96 border-t md:border-t-0 md:border-l border-navy-700/50 flex flex-col bg-navy-900 overflow-hidden">
         <RoomSidebar
           classroomId={params.roomId}
           userId={user?.id ?? null}
