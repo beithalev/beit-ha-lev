@@ -67,8 +67,8 @@ export default function LandingPage() {
 
       {/* Ambient orbs */}
       <div
-        className="glow-orb fixed -z-10 w-[700px] h-[400px] opacity-30"
-        style={{ background: "radial-gradient(ellipse, rgba(20,50,110,0.9) 0%, transparent 70%)", top: "-100px", left: "50%", transform: "translateX(-50%)" }}
+        className="glow-orb fixed -z-10 w-[700px] h-[400px] opacity-25"
+        style={{ background: "radial-gradient(ellipse, rgba(245,158,42,0.5) 0%, transparent 70%)", top: "-100px", left: "50%", transform: "translateX(-50%)" }}
       />
       <div
         className="glow-orb fixed -z-10 w-[400px] h-[400px] opacity-15"

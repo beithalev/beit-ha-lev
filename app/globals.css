@@ -8,6 +8,11 @@
   body {
     @apply bg-navy-950 text-cream-50 antialiased;
     font-family: var(--font-inter, Inter, system-ui, sans-serif);
+    background-image:
+      radial-gradient(ellipse 70% 50% at 12% 0%, rgba(245,158,42,0.16) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 45% at 100% 25%, rgba(242,200,74,0.10) 0%, transparent 65%),
+      radial-gradient(ellipse 80% 55% at 50% 100%, rgba(245,158,42,0.14) 0%, transparent 70%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3 {
