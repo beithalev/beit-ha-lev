@@ -16,12 +16,25 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Beit Ha Lev | בֵּית הַלֵּב",
-  description: "A home for the heart — hevruta Torah study and shidduch connections.",
+  metadataBase: new URL("https://beit-ha-lev-ten.vercel.app"),
+  title: {
+    default: "Beit Ha Lev | בֵּית הַלֵּב",
+    template: "%s | Beit Ha Lev",
+  },
+  description: "A home for the heart — live Torah study rooms and values-first shidduch connections for Jews of every denomination.",
+  keywords: ["Torah study", "shidduch", "hevruta", "Jewish learning", "live classes", "Jewish matchmaking", "Beit Ha Lev"],
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Beit Ha Lev",
     description: "Live Torah study rooms and meaningful shidduch connections.",
+    url: "https://beit-ha-lev-ten.vercel.app",
+    siteName: "Beit Ha Lev",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Beit Ha Lev",
+    description: "Live Torah study rooms and meaningful shidduch connections.",
   },
 };
 
