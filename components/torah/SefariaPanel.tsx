@@ -154,21 +154,21 @@ export default function SefariaPanel() {
         {result && (
           <div className="space-y-3">
             <div>
-              <p className="text-gold-400 text-sm font-semibold">{result.ref}</p>
-              <p className="text-slate-500 text-xs font-hebrew">{result.heRef}</p>
+              <p className="text-gold-400 text-base font-semibold">{result.ref}</p>
+              <p className="text-slate-500 text-sm font-hebrew">{result.heRef}</p>
             </div>
             {flatten(result.he).slice(0, 40).map((line, i) => (
-              <p key={`he-${i}`} dir="rtl" className="font-hebrew text-cream-100 text-base leading-relaxed">
+              <p key={`he-${i}`} dir="rtl" className="font-hebrew text-cream-100 text-lg leading-relaxed">
                 {line.replace(/<[^>]+>/g, "")}
               </p>
             ))}
             {flatten(result.text).slice(0, 40).map((line, i) => (
-              <p key={`en-${i}`} className="text-slate-300 text-sm leading-relaxed">
+              <p key={`en-${i}`} className="text-slate-300 text-base leading-relaxed">
                 {line.replace(/<[^>]+>/g, "")}
               </p>
             ))}
             {(flatten(result.he).length > 40 || flatten(result.text).length > 40) && (
-              <p className="text-slate-500 text-xs italic">
+              <p className="text-slate-500 text-sm italic">
                 This source is long — showing the first part only. Try a more specific reference (e.g. a chapter or page).
               </p>
             )}

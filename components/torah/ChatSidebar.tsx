@@ -81,24 +81,24 @@ export default function ChatSidebar({ classroomId, userId, displayName }: Props)
     <>
       {/* Header */}
       <div className="px-4 py-3 border-b border-navy-700/50">
-        <h2 className="text-sm font-semibold text-cream-50">Live Chat</h2>
-        <p className="text-xs text-slate-500">{messages.length} messages</p>
+        <h2 className="text-base font-semibold text-cream-50">Live Chat</h2>
+        <p className="text-sm text-slate-500">{messages.length} messages</p>
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {messages.length === 0 && (
-          <p className="text-slate-500 text-sm text-center mt-10">
+          <p className="text-slate-500 text-base text-center mt-10">
             No messages yet. Start the conversation!
           </p>
         )}
         {messages.map((m) => (
           <div key={m.id} className={m.user_id === userId ? "text-right" : ""}>
-            <span className="text-xs text-gold-500 font-medium">
+            <span className="text-sm text-gold-500 font-medium">
               {m.user_id === userId ? "You" : (m.user?.display_name ?? "Anonymous")}
             </span>
             <p
-              className={`inline-block mt-0.5 px-3 py-1.5 rounded-xl text-sm max-w-xs break-words ${
+              className={`inline-block mt-0.5 px-3 py-1.5 rounded-xl text-base max-w-xs break-words ${
                 m.user_id === userId
                   ? "bg-gold-400/20 text-cream-100"
                   : "bg-navy-700 text-cream-100"
@@ -106,7 +106,7 @@ export default function ChatSidebar({ classroomId, userId, displayName }: Props)
             >
               {m.content}
             </p>
-            <div className="text-xs text-slate-600 mt-0.5">{formatDate(m.created_at)}</div>
+            <div className="text-sm text-slate-600 mt-0.5">{formatDate(m.created_at)}</div>
           </div>
         ))}
         <div ref={bottomRef} />

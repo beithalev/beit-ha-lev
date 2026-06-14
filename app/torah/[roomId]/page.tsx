@@ -32,7 +32,7 @@ export default async function RoomPage({ params }: Props) {
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row overflow-hidden">
       {/* Video area */}
-      <div className="h-[42vh] shrink-0 md:h-auto md:flex-1 min-h-0 bg-navy-950 flex flex-col">
+      <div className="h-[30vh] shrink-0 md:h-auto md:flex-1 min-h-0 bg-navy-950 flex flex-col">
         {/* Room header */}
         <div className="px-4 sm:px-5 py-3 border-b border-navy-700/50 flex items-center justify-between gap-3">
           <div className="min-w-0">
