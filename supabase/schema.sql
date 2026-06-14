@@ -18,8 +18,10 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
-create policy "Users can read all profiles"
-  on public.profiles for select using (true);
+-- Full rows (including email) are only readable by their owner.
+-- Other users get display name/role via the public.profile_public view below.
+create policy "Users can read their own profile"
+  on public.profiles for select using (auth.uid() = id);
 
 create policy "Users can update their own profile"
   on public.profiles for update using (auth.uid() = id);
@@ -188,6 +190,14 @@ create policy "Match parties can send messages"
 -- In Supabase dashboard: Database → Replication → enable for classroom_messages & match_messages
 
 -- ─── Helper views ─────────────────────────────────────────────────────────────
+
+-- Safe, non-PII profile info (no email) for displaying other users' names.
+-- Owned by the table owner, so it bypasses the "own row only" RLS policy above
+-- while only ever exposing these three columns.
+create or replace view public.profile_public as
+  select id, display_name, role from public.profiles;
+
+grant select on public.profile_public to anon, authenticated;
 
 create or replace view public.classroom_list as
   select

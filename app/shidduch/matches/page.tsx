@@ -21,7 +21,7 @@ export default async function MatchesPage() {
   // Get all other active profiles
   const { data: allProfiles } = await supabase
     .from("shidduch_profiles")
-    .select("*, profiles(display_name)")
+    .select("*")
     .eq("is_active", true)
     .neq("id", user.id);
 

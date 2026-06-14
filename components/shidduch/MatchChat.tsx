@@ -28,7 +28,7 @@ export default function MatchChat({ matchId, initialMessages, userId, displayNam
         { event: "INSERT", schema: "public", table: "match_messages", filter: `match_id=eq.${matchId}` },
         async (payload) => {
           const msg = payload.new as MatchMessage;
-          const { data: p } = await supabase.from("profiles").select("display_name").eq("id", msg.sender_id).single();
+          const { data: p } = await supabase.from("profile_public").select("display_name").eq("id", msg.sender_id).single();
           setMsgs((prev) => [...prev, { ...msg, sender: p ?? undefined }]);
         }
       )

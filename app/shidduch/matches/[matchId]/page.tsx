@@ -46,7 +46,7 @@ export default async function MatchChatPage({ params }: Props) {
   // Load messages
   const { data: messages } = await supabase
     .from("match_messages")
-    .select("*, profiles(display_name)")
+    .select("*")
     .eq("match_id", params.matchId)
     .order("created_at", { ascending: true });
 
@@ -55,6 +55,14 @@ export default async function MatchChatPage({ params }: Props) {
     .select("display_name")
     .eq("id", user.id)
     .single();
+
+  // Attach sender display names via the safe public view
+  const senderIds = [...new Set((messages ?? []).map((m) => m.sender_id))];
+  const { data: senders } = senderIds.length
+    ? await supabase.from("profile_public").select("id, display_name").in("id", senderIds)
+    : { data: [] };
+  const senderMap = new Map((senders ?? []).map((s) => [s.id, { display_name: s.display_name }]));
+  const messagesWithSenders = (messages ?? []).map((m) => ({ ...m, sender: senderMap.get(m.sender_id) }));
 
   return (
     <div className="max-w-2xl mx-auto h-[calc(100vh-4rem)] flex flex-col">
@@ -66,7 +74,7 @@ export default async function MatchChatPage({ params }: Props) {
       </div>
       <MatchChat
         matchId={params.matchId}
-        initialMessages={messages ?? []}
+        initialMessages={messagesWithSenders}
         userId={user.id}
         displayName={myProfile?.display_name ?? "You"}
       />

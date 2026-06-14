@@ -47,7 +47,7 @@ export default function ChatSidebar({ classroomId, userId, displayName }: Props)
           const msg = payload.new as ChatMessage;
           // Fetch sender name
           const { data: p } = await supabase
-            .from("profiles")
+            .from("profile_public")
             .select("display_name")
             .eq("id", msg.user_id)
             .single();

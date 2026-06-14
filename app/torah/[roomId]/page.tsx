@@ -10,11 +10,17 @@ export default async function RoomPage({ params }: Props) {
 
   const { data: classroom } = await supabase
     .from("classrooms")
-    .select("*, profiles(display_name)")
+    .select("*")
     .eq("id", params.roomId)
     .single();
 
   if (!classroom) notFound();
+
+  const { data: rabbi } = await supabase
+    .from("profile_public")
+    .select("display_name")
+    .eq("id", classroom.rabbi_id)
+    .single();
 
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile }  = user
@@ -32,7 +38,7 @@ export default async function RoomPage({ params }: Props) {
           <div className="min-w-0">
             <h1 className="text-cream-50 font-semibold truncate">{classroom.title}</h1>
             <p className="text-xs text-slate-400 truncate">
-              {classroom.topic} · by {classroom.profiles?.display_name}
+              {classroom.topic} · by {rabbi?.display_name}
             </p>
           </div>
           {classroom.is_live && (
