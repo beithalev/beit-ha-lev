@@ -118,7 +118,7 @@ export default function SefariaPanel() {
         </button>
 
         {showSuggestions && suggestions.length > 0 && (
-          <div className="absolute left-4 right-16 top-full mt-1 bg-navy-800 border border-navy-700 rounded-lg overflow-hidden z-10 shadow-lg">
+          <div className="absolute left-4 right-16 top-full mt-1 bg-navy-800 border border-navy-700 rounded-lg overflow-y-auto max-h-60 z-10 shadow-lg">
             {suggestions.map((s) => (
               <button
                 key={s}
