@@ -28,15 +28,15 @@ export default async function RoomPage({ params }: Props) {
       {/* Video area */}
       <div className="flex-1 bg-navy-950 flex flex-col">
         {/* Room header */}
-        <div className="px-5 py-3 border-b border-navy-700/50 flex items-center justify-between">
-          <div>
-            <h1 className="text-cream-50 font-semibold">{classroom.title}</h1>
-            <p className="text-xs text-slate-400">
+        <div className="px-4 sm:px-5 py-3 border-b border-navy-700/50 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-cream-50 font-semibold truncate">{classroom.title}</h1>
+            <p className="text-xs text-slate-400 truncate">
               {classroom.topic} · by {classroom.profiles?.display_name}
             </p>
           </div>
           {classroom.is_live && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 text-xs font-medium">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 text-xs font-medium shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
               LIVE
             </span>

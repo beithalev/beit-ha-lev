@@ -57,23 +57,23 @@ export default async function ShidduchPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="flex items-end justify-between mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
         <div>
           <p className="section-label mb-2">Shidduch</p>
           <h1 className="text-4xl font-serif text-cream-50">Your Matches</h1>
         </div>
-        <Link href="/shidduch/questionnaire" className="btn-outline text-sm">
+        <Link href="/shidduch/questionnaire" className="btn-outline text-sm shrink-0">
           Edit Profile
         </Link>
       </div>
 
       {/* Run matching */}
-      <div className="card mb-6 flex items-center justify-between">
+      <div className="card mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <p className="text-cream-50 font-medium">Find New Matches</p>
           <p className="text-slate-400 text-sm">Our algorithm scans compatible profiles daily.</p>
         </div>
-        <Link href="/shidduch/matches" className="btn-gold text-sm">
+        <Link href="/shidduch/matches" className="btn-gold text-sm shrink-0">
           <Heart size={14} /> View Suggestions
         </Link>
       </div>

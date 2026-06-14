@@ -1,7 +1,8 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Heart, LogIn, Sparkles } from "lucide-react";
+import { BookOpen, Heart, LogIn, Sparkles, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -11,16 +12,17 @@ const links = [
 
 export default function Navbar() {
   const path = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 h-16">
+    <header className="fixed top-0 inset-x-0 z-50">
       {/* Backdrop */}
-      <div className="absolute inset-0 glass border-b border-white/[0.05]" />
+      <div className="absolute inset-0 h-16 glass border-b border-white/[0.05]" />
 
-      <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 md:px-8">
+      <div className="relative max-w-7xl mx-auto h-16 flex items-center justify-between px-5 md:px-8">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group" onClick={() => setOpen(false)}>
           <div className="relative w-8 h-8 flex items-center justify-center">
             <div className="absolute inset-0 rounded-lg bg-gold-400/10 group-hover:bg-gold-400/20 transition-colors" />
             <span className="text-gold-400 text-lg relative z-10">✡</span>
@@ -68,8 +70,49 @@ export default function Navbar() {
             <Sparkles size={13} />
             Join Free
           </Link>
+
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="flex md:hidden items-center justify-center w-10 h-10 -mr-1 rounded-lg text-slate-300 hover:text-cream-50 hover:bg-white/5 transition-colors"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu panel */}
+      {open && (
+        <nav className="md:hidden glass border-b border-white/[0.05] px-5 py-3 flex flex-col gap-1">
+          {links.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setOpen(false)}
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                path.startsWith(href)
+                  ? "text-gold-400 bg-gold-400/10"
+                  : "text-slate-300 hover:text-cream-100 hover:bg-white/5"
+              )}
+            >
+              <Icon size={16} />
+              {label}
+            </Link>
+          ))}
+          <Link
+            href="/auth/login"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:text-cream-100 hover:bg-white/5 transition-all duration-200"
+          >
+            <LogIn size={16} />
+            Sign in
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
